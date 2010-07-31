@@ -37,7 +37,7 @@ class User {
 	}
 
 	public static function login($username, $password) {
-		$user = User->getUser(-1,$username)
+		$user = self::getUser(-1,$username);
 		
 		if($user === NULL) {
 			die("No such username");

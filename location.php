@@ -36,7 +36,7 @@ class Location {
 	}
 
 	public function getCurrentUserLocation($user_id) {
-		$locations = $this::getUserLocations($user_id);
+		$locations = self::getUserLocations($user_id);
 		if(sizeof($locations) > 0) {
 			return $locations[0];
 		}
