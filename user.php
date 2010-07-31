@@ -4,9 +4,9 @@ class User {
 	var $username;
 	var $passwd;
 	var $email;
-	var $displayName;
+	var $display_name;
 	var $created;
-	var $lastSeen;
+	var $last_seen;
 	var $authed;
 
 	var $locations;
@@ -31,8 +31,7 @@ class User {
 
 		$row = mysql_fetch_object($res,'User');
 
-		$location = new Location();
-		$row->locations = $location->getUserLocations($id);
+		$row->locations = Location::getUserLocations($id);
 
 		return $row;
 	}
