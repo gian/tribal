@@ -77,10 +77,17 @@ class User {
 		return false;
 	}
 
-	function getTribes() {
+	public function getTribes() {
 		$sql = "SELECT tribe_id FROM user_tribes WHERE user_id = {$this->user_id}";
 		$res = mysql_query($sql);
 
+		$tribes = array();
+		
+		while(($row = mysql_fetch_assoc($res)) != NULL) {
+			$tribes []= $row['tribe_id'];
+		}
+
+		return $tribes;
 	}
 }
 
