@@ -3,7 +3,7 @@ class Location {
 	var $id;
 	var $user_id;
 	var $lat;
-	var $long;
+	var $lng;
 	var $street_address;
 	var $city;
 	var $post_code;
@@ -54,8 +54,8 @@ class Location {
 		$sql = "SELECT * FROM locations " .
 				"WHERE last_seen >= now()-$withinTime AND " .
 				"(abs(lat - $lat) < $halfArc) AND " .
-				"(abs(long - $long) < $halfArc) " .
-				"ORDER BY ((abs(lat-$lat) + abs(long-$long)) / 2) ASC";
+				"(abs(lng - $lng) < $halfArc) " .
+				"ORDER BY ((abs(lat-$lat) + abs(lng-$lng)) / 2) ASC";
 
 		$res = mysql_query($sql);
 

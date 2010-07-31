@@ -1,7 +1,7 @@
 create table locations (id integer unique not null auto_increment,
 						user_id integer not null,
 						lat double,
-						long double,
+						lng double,
 						street_address varchar(255),
 						city varchar(64),
 						post_code varchar(32),
