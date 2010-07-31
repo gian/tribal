@@ -11,12 +11,12 @@ class User {
 
 	var $locations;
 
-	function User() {
+	public function User() {
 		$this->id = -1;
 		$this->authed = false;
 	}
 
-	function getUser($id,$username="") {
+	public static function getUser($id,$username="") {
 		$sql = "SELECT * FROM users WHERE id = $id";
 
 		if($username != "") {
@@ -29,38 +29,27 @@ class User {
 			return NULL;
 		}
 
-		$row = mysql_fetch_assoc($res);
-
-		if($row == NULL) {
-			return NULL;
-		}
-
-		$this->id 			= 	$row['id'];
-		$this->username 	= 	$row['username'];
-		$this->passwd   	= 	$row['passwd'];
-		$this->email    	= 	$row['email'];
-		$this->displayName	=	$row['display_name'];
-		$this->created		= 	$row['created'];
-		$this->lastSeen		= 	$row['last_seen'];
-		$this->authed		= 	$row['authed'];
+		$row = mysql_fetch_object($res,'User');
 
 		$location = new Location();
-		$this->locations = $location->getUserLocations($id);
+		$row->locations = $location->getUserLocations($id);
 
-		return true;
+		return $row;
 	}
 
-	function login($username, $password) {
-		if($this->getUser(-1,$username) === NULL) {
+	public static function login($username, $password) {
+		$user = User->getUser(-1,$username)
+		
+		if($user === NULL) {
 			die("No such username");
 		}
 
 		if($username != "" &&
 		   $password != "" &&
-		   $username == $this->username &&
-		   md5($password) == $this->password) {
+		   $username == $user->username &&
+		   md5($password) == $user->password) {
 			$user->authed = true;
-			$_SESSION['user_id'] = $this->id;
+			$_SESSION['user_id'] = $user->id;
 			$_SESSION['username'] = $username;
 			$_SESSION['password'] = $password;
 		} else {
@@ -68,7 +57,7 @@ class User {
 		}
 	}
 
-	function isAuthed() {
+	public function isAuthed() {
 		if(!isset($_SESSION['user_id'])) return false;
 
 		$this->getUser($_SESSION['user_id']);
@@ -87,6 +76,12 @@ class User {
 		}
 
 		return false;
+	}
+
+	function getTribes() {
+		$sql = "SELECT tribe_id FROM user_tribes WHERE user_id = {$this->user_id}";
+		$res = mysql_query($sql);
+
 	}
 }
 

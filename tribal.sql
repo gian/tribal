@@ -17,3 +17,12 @@ create table users 	   (id integer unique not null auto_increment,
 						created datetime,
 						last_seen datetime);
 
+create table tribes    (id integer unique not null auto_increment,
+						name varchar(128) not null);
+
+create table user_tribes
+					   (user_id integer not null,
+					    tribe_id integer not null,
+						join_date datetime);
+						
+
